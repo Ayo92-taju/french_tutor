@@ -188,7 +188,7 @@
     .hero-line {
       position: absolute;
       top: 0; bottom: 0;
-      left: 58%;
+      left: 49%;
       width: 1px;
       background: linear-gradient(to bottom, transparent, rgba(232,160,48,0.3), transparent);
     }
@@ -487,6 +487,26 @@
     .testi-role { font-size: 12px; color: var(--ink-light); margin-top: 0.15rem; }
 
     /* ─── PUBLICATIONS ─── */
+     #publications { background: var(--blue-deep); }
+     #publications .section-label { color: var(--gold-light); }
+     #publications .section-title { color: var(--white); }
+    .publications-header { margin-bottom: 3.5rem; }
+    .publications-sub {color: rgba(244,241,236,0.5); font-size: 15px; margin-bottom: 3rem; }
+    .publications-grid { display: grid; grid-template-columns: repeat(3, 1fr); /*gap: 1.5px;*/ border: 1.5px solid var(--border); }
+    .publications-card { 
+      background: rgba(255,255,255,0.04);
+      border: 1.13px solid rgba(232,160,48,0.15);
+      padding: 2rem 1.75rem;
+      position: relative;
+    }
+    .publications-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--white);
+       margin-bottom: 0.4rem;
+    }
+    .publications-subtext { font-size: 12px; color: rgba(244,241,236,0.4); }
 
     /* ─── FAQ ─── */
     #faq { background: var(--cream); }
@@ -744,7 +764,7 @@
         </div>
         <div class="about-content">
           <p class="section-label">About Dr. Taju</p>
-          <h2 class="section-title">A Nigerian voice in French education</h2>
+          <h2 class="section-title">A Promnent Nigerian Voice in French Education</h2>
           <br>
           <p>
             Dr. Hammid Taju holds a PhD in French from the University of Lagos, alongside an MA in Teaching French as a Foreign Language, a BA (Hons) in French from Ahmadu Bello University, Zaria, and a Diplôme d'Études Françaises from the University of Dakar, Senegal. His relationship with the French language spans over five decades.
@@ -904,35 +924,36 @@
   </section>
 
   <!-- ─── PUBLICATIONS ─── -->
-  <section id="publications" style="background: var(--blue-deep); padding: 5rem 0;">
+  <section id="publications" class="section">
     <div class="container">
-      <p class="section-label" style="color: var(--gold-light);">Published Works</p>
-      <h2 class="section-title" style="color: var(--white); margin-bottom: 0.75rem;">Teaching French through the written word</h2>
-      <p style="color: rgba(244,241,236,0.5); font-size: 15px; margin-bottom: 3rem;">Dr. Taju is a published author whose books are used by learners and institutions across Nigeria.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: rgba(232,160,48,0.15); border: 1px solid rgba(232,160,48,0.15);">
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Business and Commercial French</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">Amitah Language Learning Services, Abuja — 2023</div>
+      <p class="section-label">Published Works</p>
+      <h2 class="section-title">Teaching through the written word</h2>
+      <br/>
+      <p class="publications-sub">Dr. Taju is a published author whose books are used by learners and institutions across Nigeria.</p>
+      <div class="publications-grid">
+        <div class="publications-card">
+          <div class="publications-text">Business and Commercial French</div>
+          <div class="publications-subtext">Amitah Language Learning Services, Abuja — 2023</div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Abuja, La métropole moderne en face de la réalité quotidienne</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">Amitah Language Learning Services, Abuja — 2022</div>
+        <div class="publications-card">
+          <div class="publications-text">Abuja, La métropole moderne en face de la réalité quotidienne</div>
+          <div class="publications-subtext">Amitah Language Learning Services, Abuja — 2022</div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Fast Track Learning French — Bonjour Tout Le Monde</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">Abuja — 2012</div>
+        <div class="publications-card">
+          <div class="publications-text">Fast Track Learning French — Bonjour Tout Le Monde</div>
+          <div class="publications-subtext">Abuja — 2012</div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Le Discours Commercial en Langue Française</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">Use of French Language for Commercial Purpose</div>
+        <div class="publications-card">
+          <div class="publications-text">Le Discours Commercial en Langue Française</div>
+          <div class="publications-subtext">Use of French Language for Commercial Purpose</div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Oworo Language, Grammar and Conversation</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">Lomae Ethan Nigeria Ltd, Abuja — 2024</div>
+        <div class="publications-card">
+          <div class="publications-text">Oworo Language, Grammar and Conversation</div>
+          <div class="publications-subtext">Lomae Ethan Nigeria Ltd, Abuja — 2024</div>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 1.5rem 1.25rem;">
-          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--white); margin-bottom: 0.4rem;">Fundamentals of Management in the Media Industry</div>
-          <div style="font-size: 12px; color: rgba(244,241,236,0.4);">And other academic works</div>
+        <div class="publications-card">
+          <div class="publications-text">Fundamentals of Management in the Media Industry</div>
+          <div class="publications-subtext">And other academic works</div>
         </div>
       </div>
     </div>
@@ -961,10 +982,10 @@
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
-            Can I book if I'm in the UK, US, or Canada?
+            Can I book if I'm in the UK, US, France or Canada?
             <span class="faq-toggle">+</span>
           </div>
-          <div class="faq-answer">Yes. Dr. Taju serves Nigerians and Nigerian-origin students globally. Sessions are flexible and scheduled around your time zone. Prices for international students are available in your local currency — contact us for details.</div>
+          <div class="faq-answer">Yes. Dr. Taju serves Nigerians and Nigerian-origin students globally. Sessions are flexible and scheduled around your time zone. Prices for international students are available in your local currency. Contact us for details.</div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
@@ -978,14 +999,14 @@
             What if I need to reschedule a session?
             <span class="faq-toggle">+</span>
           </div>
-          <div class="faq-answer">Life happens. Sessions can be rescheduled with at least 24 hours' notice at no charge. Late cancellations (under 24 hours) may forfeit the session — full details are shared when you book.</div>
+          <div class="faq-answer">Life happens. Sessions can be rescheduled with at least 24 hours' notice at no charge. Late cancellations (under 24 hours) may forfeit the session. Full details are shared when you book.</div>
         </div>
         <div class="faq-item" onclick="toggleFaq(this)">
           <div class="faq-question">
             Do you help with DELF and DALF exams?
             <span class="faq-toggle">+</span>
           </div>
-          <div class="faq-answer">Yes — exam preparation is one of Dr. Taju's specialities. He completed the French Teachers Programme on DELF at the Institut Français, Abuja, and knows exactly what assessors look for. He will structure your preparation with past papers, timed practice, and targeted feedback.</div>
+          <div class="faq-answer">Yes. Exam preparation is one of Dr. Taju's specialities. He completed the French Teachers Programme on DELF at the Institut Français, Abuja, and knows exactly what assessors look for. He will structure your preparation with past papers, timed practice, and targeted feedback.</div>
         </div>
       </div>
     </div>
@@ -1000,21 +1021,21 @@
       <div class="contact-grid">
         <div class="contact-info">
           <div class="contact-info-item">
-            <div class="contact-info-icon">📧</div>
+            <div class="contact-info-icon"></div>
             <div class="contact-info-text">
               <div class="label">Email</div>
               <div class="value">dr.taju@email.com</div>
             </div>
           </div>
           <div class="contact-info-item">
-            <div class="contact-info-icon">📍</div>
+            <div class="contact-info-icon"></div>
             <div class="contact-info-text">
               <div class="label">Location</div>
               <div class="value">Nigeria — Online sessions worldwide</div>
             </div>
           </div>
           <div class="contact-info-item">
-            <div class="contact-info-icon">🕐</div>
+            <div class="contact-info-icon"></div>
             <div class="contact-info-text">
               <div class="label">Response time</div>
               <div class="value">Within 24 hours</div>
@@ -1024,7 +1045,6 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Book via WhatsApp
           </a>
-          <p style="font-size:12px; color:rgba(244,241,236,0.3); margin-top: 0.25rem;">Update the WhatsApp number before going live</p>
         </div>
         <div>
           <div id="booking-form">
