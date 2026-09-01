@@ -354,13 +354,15 @@
     /* ─── SERVICES ─── */
     #services { background: var(--white); }
     .services-header { margin-bottom: 3.5rem; }
-    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 1.5px solid var(--border); }
+    .services-sub { font-size: 15px; color: var(--ink-light); margin-top: 0.75rem; max-width: 640px; }
+    .services-list { display: flex; flex-direction: column; gap: 1.75rem; }
+
     .service-card {
       background: #ffffff;
-      padding: 2.25rem 1.75rem;
-      transition: background 0.25s;
+      border: 1.5px solid var(--border);
       position: relative;
       overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
     }
     .service-card::before {
       content: '';
@@ -370,10 +372,21 @@
       background: var(--navy);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.3s;
+      transition: transform 0.35s;
+      z-index: 2;
     }
     .service-card:hover::before { transform: scaleX(1); }
-    .service-card:hover { background: var(--off-white); }
+    .service-card:hover {
+      border-color: rgba(15, 35, 64, 0.28);
+      box-shadow: 0 14px 36px rgba(15, 35, 64, 0.07);
+    }
+
+    .service-body {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 3rem;
+      padding: 2.75rem 2.25rem 2.25rem;
+    }
     .service-icon {
       font-family: 'Cormorant Garamond', serif;
       font-size: 2.5rem;
@@ -384,19 +397,14 @@
     }
     .service-card h3 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
+      font-size: 1.6rem;
       font-weight: 500;
       color: var(--ink);
-      margin-bottom: 0.75rem;
-    }
-    .service-card p {
-      font-size: 14px;
-      color: var(--ink-light);
-      line-height: 1.65;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
     }
     .service-tag {
       display: inline-block;
-      margin-top: 1rem;
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -404,73 +412,81 @@
       border: 1px solid var(--navy-light);
       padding: 0.2rem 0.6rem;
     }
- 
-    /* ─── PRICING ─── */
-    #pricing { background: var(--navy); }
-    #pricing .section-label { color: #A8C4E0; }
-    #pricing .section-title { color: #ffffff; }
-    .pricing-sub { color: rgba(255,255,255,0.6); font-size: 15px; margin-top: 0.5rem; margin-bottom: 3.5rem; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .pricing-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 2rem 1.75rem;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
+    .service-desc {
+      font-size: 14.5px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      margin-top: 1.15rem;
     }
-    .pricing-card:hover {
-      border-color: rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.07);
-    }
-    .pricing-card.featured {
-      border-color: #ffffff;
-      background: rgba(255,255,255,0.1);
-    }
-    .popular-badge {
-      position: absolute;
-      top: -1px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffffff;
-      color: var(--navy);
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      font-weight: 500;
-    }
-    .pricing-plan {
+    .service-includes-label {
       font-size: 11px;
+      font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #A8C4E0;
-      margin-bottom: 0.75rem;
+      color: var(--navy-light);
+      margin-bottom: 0.85rem;
     }
-    .pricing-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.8rem;
-      font-weight: 600;
-      color: #ffffff;
-      line-height: 1;
-    }
-    .pricing-price span { font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.4); }
-    .pricing-desc {
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
-      margin: 0.5rem 0 1.5rem;
-    }
-    .pricing-features { list-style: none; margin-bottom: 2rem; }
-    .pricing-features li {
+    .service-includes { list-style: none; }
+    .service-includes li {
       font-size: 13.5px;
-      color: rgba(255,255,255,0.75);
-      padding: 0.45rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--ink-light);
+      line-height: 1.6;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-light);
       display: flex;
-      gap: 0.6rem;
+      gap: 0.7rem;
       align-items: flex-start;
     }
-    .pricing-features li::before { content: '✓'; color: #A8C4E0; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
-    .pricing-note { margin-top: 2.5rem; text-align: center; font-size: 13px; color: rgba(255,255,255,0.35); }
+    .service-includes li:last-child { border-bottom: none; }
+    .service-includes li::before {
+      content: '✓';
+      color: var(--navy-light);
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .service-meta {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr auto;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem 2.25rem;
+      background: var(--off-white);
+      border-top: 1.5px solid var(--border-light);
+    }
+    .meta-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--navy-light);
+      margin-bottom: 0.4rem;
+    }
+    .meta-value { font-size: 14px; color: var(--ink-mid); line-height: 1.5; }
+    .service-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.15rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .service-price small {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--ink-light);
+      letter-spacing: 0.03em;
+      margin-top: 0.4rem;
+    }
+    .services-note {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.7;
+    }
  
     /* ─── TESTIMONIALS ─── */
     #testimonials { background: var(--off-white); }
@@ -672,8 +688,8 @@
       .hero-line { display: none; }
       .about-grid { grid-template-columns: 1fr; }
       .about-image-block { max-width: 340px; }
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .service-body { grid-template-columns: 1fr; gap: 2rem; }
+      .service-meta { grid-template-columns: 1fr; gap: 1.5rem; justify-items: start; }
       .testimonials-grid { grid-template-columns: 1fr; }
       .publications-grid { grid-template-columns: 1fr 1fr; }
       .faq-grid { grid-template-columns: 1fr; }
@@ -683,7 +699,8 @@
     }
     @media (max-width: 600px) {
       .section { padding: 4rem 0; }
-      .services-grid { grid-template-columns: 1fr; }
+      .service-body { padding: 2rem 1.5rem 1.75rem; }
+      .service-meta { padding: 1.5rem; }
       .publications-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .stat-row { grid-template-columns: 1fr 1fr; }
@@ -699,7 +716,6 @@
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#services">Services</a>
-        <a href="#pricing">Pricing</a>
         <a href="#testimonials">Reviews</a>
         <a href="#publications">Books</a>
         <a href="#faq">FAQ</a>
@@ -714,7 +730,6 @@
   <div class="mobile-menu" id="mobile-menu">
     <a href="#about" onclick="closeMobile()">About</a>
     <a href="#services" onclick="closeMobile()">Services</a>
-    <a href="#pricing" onclick="closeMobile()">Pricing</a>
     <a href="#testimonials" onclick="closeMobile()">Reviews</a>
     <a href="#publications" onclick="closeMobile()">Books</a>
     <a href="#faq" onclick="closeMobile()">FAQ</a>
@@ -810,105 +825,133 @@
   </section>
 
   <!-- ─── SERVICES ─── -->
+  <!--
+    ============================================================
+    PRICING PLACEHOLDERS — REPLACE BEFORE GOING LIVE
+    Each of the three programmes below carries two placeholder
+    values that must be filled in with the client's real figures:
+      1. Programme fee ....... ₦000,000
+      2. Duration ............ 00 weeks · 0 × 60-minute sessions weekly
+    Search this file for "000,000" and "00 weeks" to find them all.
+    ============================================================
+  -->
   <section id="services" class="section">
     <div class="container">
       <div class="services-header">
         <p class="section-label">What I Offer</p>
-        <h2 class="section-title">Programmes for every goal</h2>
+        <h2 class="section-title">Three programmes, one clear path</h2>
+        <p class="services-sub">Every programme is one-on-one and conducted online via Zoom or Google Meet, with the pace and materials set around your starting level. Fees below cover the complete programme.</p>
       </div>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-icon">I</div>
-          <h3>Phonetics &amp; Phonemes</h3>
-          <p>Start at the foundation, mastering the sounds of French. Correct pronunciation from day one, covering vowels, consonants, liaison, and the rhythms that make French sound natural.</p>
-          <div class="service-tag">Foundation</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">II</div>
-          <h3>Listening &amp; Speaking</h3>
-          <p>Train your ear and your voice together. Oral comprehension exercises, guided conversation, and real-world listening practice to build confident spoken French.</p>
-          <div class="service-tag">A1 – B2</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">III</div>
-          <h3>Reading &amp; Writing</h3>
-          <p>Develop literacy in French from reading comprehension and vocabulary building to structured writing, grammar, and composition at every level.</p>
-          <div class="service-tag">A1 – C2</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">IV</div>
-          <h3>Business &amp; Professional French</h3>
-          <p>French for the workplace. Meetings, correspondence, presentations, and the professional vocabulary needed for Francophone Africa and international contexts.</p>
-          <div class="service-tag">Professional</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">V</div>
-          <h3>Examination Preparation</h3>
-          <p>Structured coaching for DELF, DALF, and professional certificate examinations in Journalism and Accounting. Past papers, timed practice, and expert feedback.</p>
-          <div class="service-tag">DELF · DALF · Professional</div>
-        </div>
-        <div class="service-card">
-          <div class="service-icon">VI</div>
-          <h3>Advanced Mastery</h3>
-          <p>Refine your French to near-native level. Focus on nuance, idiomatic expression, academic writing, and sophisticated oral communication.</p>
-          <div class="service-tag">C1 – C2</div>
-        </div>
-      </div>
-      <div class="services-note">
-        <p>Candidates may register for examinations at A1, A2, B1, B2, C1 or C2 as competences advance through the programme.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- ─── PRICING ─── -->
-  <section id="pricing" class="section">
-    <div class="container">
-      <p class="section-label">Investment</p>
-      <h2 class="section-title">Simple, transparent pricing</h2>
-      <p class="pricing-sub">All sessions are one-on-one, conducted via Zoom or Google Meet. Prices are per session (60 minutes).</p>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-plan">Single Session</div>
-          <div class="pricing-price">₦15,000 <span>/ session</span></div>
-          <div class="pricing-desc">Pay as you go — no commitment</div>
-          <ul class="pricing-features">
-            <li>1 × 60-minute session</li>
-            <li>Personalised lesson plan</li>
-            <li>Session notes & resources</li>
-            <li>Email follow-up Q&A</li>
-          </ul>
-          <a href="#contact" class="btn-outline" style="width:100%; text-align:center;">Book Now</a>
+      <div class="services-list">
+
+        <!-- I — READING & WRITING -->
+        <div class="service-card">
+          <div class="service-body">
+            <div class="service-intro">
+              <div class="service-icon">I</div>
+              <h3>Reading &amp; Writing</h3>
+              <div class="service-tag">A1 – C2</div>
+              <p class="service-desc">Build French literacy from the ground up. The programme starts with the sounds of the language, so pronunciation is right from day one, then moves through vocabulary, grammar and structured composition until you can read and write French with confidence.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-includes-label">What the programme covers</p>
+              <ul class="service-includes">
+                <li><span>Phonetics and phonemes — vowels, consonants, liaison, and the rhythms that make French sound natural</span></li>
+                <li><span>Guided reading and comprehension, graded to your level</span></li>
+                <li><span>Vocabulary building and grammar taught in context</span></li>
+                <li><span>Structured writing, from sentence to paragraph to full composition</span></li>
+                <li><span>Listening and speaking practice woven through every session</span></li>
+                <li><span>Session notes, exercises and resources after each class</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="service-meta">
+            <div>
+              <div class="meta-label">Duration</div>
+              <div class="meta-value">00 weeks · 0 × 60-minute sessions weekly</div>
+            </div>
+            <div>
+              <div class="meta-label">Programme fee</div>
+              <div class="service-price">₦000,000<small>Complete programme</small></div>
+            </div>
+            <a href="#contact" class="btn-primary">Enrol →</a>
+          </div>
         </div>
-        <div class="pricing-card featured">
-          <div class="popular-badge">Most Popular</div>
-          <div class="pricing-plan">Monthly Package</div>
-          <div class="pricing-price">₦50,000 <span>/ month</span></div>
-          <div class="pricing-desc">4 sessions · Save ₦10,000</div>
-          <ul class="pricing-features">
-            <li>4 × 60-minute sessions</li>
-            <li>Structured learning roadmap</li>
-            <li>Progress tracking report</li>
-            <li>Session notes & resources</li>
-            <li>WhatsApp support between sessions</li>
-          </ul>
-          <a href="#contact" class="btn-primary" style="width:100%; text-align:center;">Book Now</a>
+
+        <!-- II — BUSINESS FRENCH -->
+        <div class="service-card">
+          <div class="service-body">
+            <div class="service-intro">
+              <div class="service-icon">II</div>
+              <h3>Business French</h3>
+              <div class="service-tag">Professional</div>
+              <p class="service-desc">French for the workplace. Meetings, correspondence, negotiation and the commercial vocabulary needed across Francophone Africa and in international trade — taught from the same material Dr. Taju wrote his business French textbooks on.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-includes-label">What the programme covers</p>
+              <ul class="service-includes">
+                <li><span>Commercial vocabulary and <em>le discours commercial</em></span></li>
+                <li><span>Professional correspondence — emails, letters and reports</span></li>
+                <li><span>Meetings, presentations and telephone French</span></li>
+                <li><span>Negotiation and trade terminology for Francophone markets</span></li>
+                <li><span>Role-play built on real business scenarios</span></li>
+                <li><span>Taught from <em>Business and Commercial French</em>, authored by Dr. Taju</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="service-meta">
+            <div>
+              <div class="meta-label">Duration</div>
+              <div class="meta-value">00 weeks · 0 × 60-minute sessions weekly</div>
+            </div>
+            <div>
+              <div class="meta-label">Programme fee</div>
+              <div class="service-price">₦000,000<small>Complete programme</small></div>
+            </div>
+            <a href="#contact" class="btn-primary">Enrol →</a>
+          </div>
         </div>
-        <div class="pricing-card">
-          <div class="pricing-plan">Intensive Plan</div>
-          <div class="pricing-price">₦90,000 <span>/ month</span></div>
-          <div class="pricing-desc">8 sessions · Best value</div>
-          <ul class="pricing-features">
-            <li>8 × 60-minute sessions</li>
-            <li>2 sessions per week</li>
-            <li>Full curriculum with milestones</li>
-            <li>Exam prep materials included</li>
-            <li>Priority WhatsApp access</li>
-            <li>Monthly written assessment</li>
-          </ul>
-          <a href="#contact" class="btn-outline" style="width:100%; text-align:center;">Book Now</a>
+
+        <!-- III — ADVANCED MASTERY -->
+        <div class="service-card">
+          <div class="service-body">
+            <div class="service-intro">
+              <div class="service-icon">III</div>
+              <h3>Advanced Mastery</h3>
+              <div class="service-tag">C1 – C2</div>
+              <p class="service-desc">Refine your French to near-native level. The focus moves to nuance, register and idiom, with structured preparation for DELF and DALF examinations and the professional certificate examinations in Journalism and Accounting that Dr. Taju has taught for years.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-includes-label">What the programme covers</p>
+              <ul class="service-includes">
+                <li><span>Nuance, register and idiomatic expression</span></li>
+                <li><span>Academic and professional writing at C1 – C2</span></li>
+                <li><span>Sophisticated oral communication, argument and debate</span></li>
+                <li><span>DELF and DALF preparation — past papers, timed practice and targeted feedback</span></li>
+                <li><span>Literary and press text analysis</span></li>
+                <li><span>Coaching for professional certificate examinations in Journalism and Accounting</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="service-meta">
+            <div>
+              <div class="meta-label">Duration</div>
+              <div class="meta-value">00 weeks · 0 × 60-minute sessions weekly</div>
+            </div>
+            <div>
+              <div class="meta-label">Programme fee</div>
+              <div class="service-price">₦000,000<small>Complete programme</small></div>
+            </div>
+            <a href="#contact" class="btn-primary">Enrol →</a>
+          </div>
         </div>
+
       </div>
-      <p class="pricing-note">Prices listed in Naira. International students may pay in USD, GBP, EUR or CAD — Contact for equivalent rates. A free 20-minute intro call is available before committing.</p>
+
+      <div class="services-note">
+        <p>Candidates may register for examinations at A1, A2, B1, B2, C1 or C2 as competences advance through the programme. Fees are listed in Naira; international students may pay in USD, GBP, EUR or CAD — contact for equivalent rates. A free 20-minute intro call is available before you commit.</p>
+      </div>
     </div>
   </section>
 
@@ -1099,11 +1142,10 @@
               <label>What do you want to achieve?</label>
               <select id="goal">
                 <option value="" disabled selected>Select your goal</option>
-                <option>I'm a complete beginner</option>
-                <option>I want to improve my speaking</option>
-                <option>I'm preparing for DELF / DALF / TCF</option>
-                <option>I need French for work / business</option>
-                <option>I want to reach advanced/fluent level</option>
+                <option>Reading &amp; Writing programme</option>
+                <option>Business French programme</option>
+                <option>Advanced Mastery programme</option>
+                <option>I'm not sure yet — help me choose</option>
                 <option>Other — I'll explain below</option>
               </select>
             </div>
