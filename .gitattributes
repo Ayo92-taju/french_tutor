@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Never normalise binary assets
+*.jpg binary
+*.jpeg binary
+*.png binary

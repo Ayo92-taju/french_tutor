@@ -292,27 +292,15 @@
     .about-image-block {
       position: relative;
     }
-    .about-photo-placeholder {
+    .about-photo {
+      display: block;
       width: 100%;
-      aspect-ratio: 3/4;
+      /* Square frame: the source is 685x431, so a square crop uses its full
+         height and needs no upscaling. A taller frame would soften it. */
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      object-position: center;
       background: #E2EAF4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      color: var(--ink-light);
-      font-size: 13px;
-    }
-    .photo-icon {
-      width: 48px; height: 48px;
-      border: 1.5px solid var(--navy);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--navy);
-      font-size: 20px;
     }
     .about-accent-box {
       position: absolute;
@@ -490,7 +478,7 @@
  
     /* ─── TESTIMONIALS ─── */
     #testimonials { background: var(--off-white); }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
     .testi-card {
       background: #ffffff;
       padding: 1.75rem;
@@ -798,10 +786,8 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-image-block">
-          <div class="about-photo-placeholder">
-            <div class="photo-icon"></div>
-            <span>Photo of Dr. Taju</span>
-          </div>
+          <img src="assets/dr-taju-hammid.jpg" class="about-photo" loading="lazy"
+               alt="Dr. Taju Hammid in academic regalia at his University of Lagos doctoral ceremony" />
           <div class="about-accent-box">
             <div class="num">PhD</div>
             <div class="txt">University of Lagos<br>2025</div>
@@ -993,6 +979,14 @@
             <div class="testi-role">Imo State — International Institute of Journalism, Abuja</div>
           </div>
         </div>
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">We were travelling through West African Coast, our group was required to answer some questions in French from guests. None of our members could speak French. I remembered the French I learned in Mr. Taju's class in IIJ, Abuja. I was able to answer the questions and I spoke to people in French throughout the trip.</p>
+          <div class="testi-author">
+            <div class="testi-name">Reuben</div>
+            <div class="testi-role">Chief Executive, TV Channel, Nigeria</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1100,7 +1094,7 @@
             </div>
             <div class="contact-info-text">
               <div class="label">Email</div>
-              <div class="value">leoniyanda@yahoo.com</div>
+              <div class="value">tajuhammid4@gmail.com</div>
             </div>
           </div>
           <div class="contact-info-item">
