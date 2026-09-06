@@ -7,9 +7,17 @@ booking enquiries to Dr. Taju.
 
 ## Enquiry form
 
-`index.html` posts the form to `/.netlify/functions/send-enquiry`, which sends
-the enquiry on via [Resend](https://resend.com). The API key lives in a Netlify
-environment variable, so it is never served to the browser.
+Every enquiry is written to two places at once:
+
+- **Netlify Forms** keeps the durable record. Submissions are listed under
+  Site configuration → Forms, so nothing is lost even if the email fails.
+- **`/.netlify/functions/send-enquiry`** emails the enquiry to Dr. Taju via
+  [Resend](https://resend.com). The API key lives in a Netlify environment
+  variable, so it is never served to the browser.
+
+The two are independent. The visitor sees a confirmation if *either* succeeds,
+and only sees an error if both fail — at which point nothing was recorded, so
+the error tells them to use WhatsApp instead.
 
 ### Setup
 
@@ -40,11 +48,26 @@ If any variable is missing the form fails safely: the visitor is told the form
 is not configured and pointed at WhatsApp, and the reason is written to the
 function log (Netlify → Logs → Functions).
 
+### Email notifications on the form
+
+Netlify can also email on each submission (Forms → Settings → Form
+notifications). Worth turning on: it is the only thing that tells Dr. Taju an
+enquiry arrived when Resend is down. The cost is that a working setup sends two
+emails per enquiry — the Resend one, formatted and replyable, and Netlify's
+plainer notification. If that becomes annoying, turn the notification off and
+rely on checking the Forms dashboard when something looks wrong.
+
+Netlify's free tier covers 100 submissions a month.
+
 ### Notes
 
 - Replies go to the student. The email sets `reply_to` to the address they
   entered, so replying in Gmail reaches them directly.
 - Spam is filtered by a honeypot field. Bots that fill the hidden `company`
   field get a normal-looking success response and no email is sent.
-- Submissions are not stored anywhere. If an email fails to send, that enquiry
-  is lost — which is the trade-off for not keeping a third-party copy.
+- The form still works with JavaScript disabled. Without JS the browser posts
+  it normally, Netlify Forms records it, and the visitor lands on Netlify's own
+  confirmation page rather than the styled one.
+- Netlify detects forms by parsing the deployed HTML at build time, so the
+  `data-netlify` attribute and the hidden `form-name` input must stay on the
+  form markup. Removing either silently stops submissions being recorded.

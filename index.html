@@ -1140,7 +1140,9 @@
           </a>
         </div>
         <div>
-          <form id="booking-form" novalidate>
+          <form id="booking-form" name="booking" method="POST"
+                data-netlify="true" data-netlify-honeypot="company" novalidate>
+            <input type="hidden" name="form-name" value="booking" />
             <div class="form-row">
               <div class="form-group">
                 <label for="fname">First Name</label>
@@ -1220,7 +1222,8 @@
       el.classList.toggle('open');
     }
 
-    // Form submit — posts to our own Netlify function, which emails Dr. Taju.
+    // Form submit — writes to Netlify Forms (the record) and our own function
+    // (which emails Dr. Taju). Either landing means the enquiry survived.
     const bookingForm = document.getElementById('booking-form');
     const submitBtn = document.getElementById('submit-btn');
     const formError = document.getElementById('form-error');
@@ -1234,7 +1237,8 @@
       event.preventDefault();
       formError.hidden = true;
 
-      const data = Object.fromEntries(new FormData(bookingForm));
+      const formData = new FormData(bookingForm);
+      const data = Object.fromEntries(formData);
       if (!data.fname.trim() || !data.email.trim() || !data.goal) {
         showFormError('Please fill in your name, email, and goal before sending.');
         return;
@@ -1244,25 +1248,48 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
 
-      try {
-        const res = await fetch('/.netlify/functions/send-enquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const body = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(body.error || 'Something went wrong. Please try WhatsApp instead.');
+      // Two independent destinations. Netlify Forms keeps the durable record;
+      // the function sends Dr. Taju the formatted email. Either one landing
+      // means the enquiry is not lost, so we only fail if both do.
+      const record = fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      }).then((res) => {
+        if (!res.ok) throw new Error('Netlify Forms returned ' + res.status);
+      });
 
-        bookingForm.style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-      } catch (err) {
-        // A thrown TypeError here means the request never left the browser.
-        showFormError(err instanceof TypeError
+      const email = fetch('/.netlify/functions/send-enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(async (res) => {
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.error || 'Something went wrong. Please try WhatsApp instead.');
+        }
+      });
+
+      const [recorded, emailed] = await Promise.allSettled([record, email]);
+
+      if (recorded.status === 'rejected' && emailed.status === 'rejected') {
+        console.error('Enquiry lost:', recorded.reason, emailed.reason);
+        // A TypeError from fetch means the request never left the browser.
+        const offline = recorded.reason instanceof TypeError || emailed.reason instanceof TypeError;
+        showFormError(offline
           ? 'Could not reach the server. Please check your connection, or message on WhatsApp.'
-          : err.message);
+          : emailed.reason.message);
         submitBtn.disabled = false;
         submitBtn.textContent = label;
+        return;
       }
+
+      // One side failing is survivable, but worth leaving a trace.
+      if (emailed.status === 'rejected') console.warn('Recorded, but the email failed:', emailed.reason);
+      if (recorded.status === 'rejected') console.warn('Emailed, but not recorded:', recorded.reason);
+
+      bookingForm.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
     });
   </script>
 </body>
