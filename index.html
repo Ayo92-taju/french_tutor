@@ -654,6 +654,16 @@
     }
     .submit-btn:hover { background: #A8C4E0; color: var(--navy); }
     .form-note { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 0.75rem; text-align: center; }
+    .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .form-error {
+      margin-top: 0.85rem;
+      padding: 0.7rem 0.9rem;
+      font-size: 13px;
+      color: #FFD7D7;
+      background: rgba(220, 80, 80, 0.14);
+      border: 1px solid rgba(255, 140, 140, 0.35);
+    }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
     .form-success {
       display: none;
       text-align: center;
@@ -1130,28 +1140,28 @@
           </a>
         </div>
         <div>
-          <div id="booking-form">
+          <form id="booking-form" novalidate>
             <div class="form-row">
               <div class="form-group">
-                <label>First Name</label>
-                <input type="text" placeholder="e.g. Amaka" id="fname" />
+                <label for="fname">First Name</label>
+                <input type="text" placeholder="e.g. Amaka" id="fname" name="fname" required autocomplete="given-name" />
               </div>
               <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" placeholder="e.g. Obi" id="lname" />
+                <label for="lname">Last Name</label>
+                <input type="text" placeholder="e.g. Obi" id="lname" name="lname" autocomplete="family-name" />
               </div>
             </div>
             <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" placeholder="your@email.com" id="email" />
+              <label for="email">Email Address</label>
+              <input type="email" placeholder="your@email.com" id="email" name="email" required autocomplete="email" />
             </div>
             <div class="form-group">
-              <label>WhatsApp Number</label>
-              <input type="tel" placeholder="+234 800 000 0000" id="phone" />
+              <label for="phone">WhatsApp Number</label>
+              <input type="tel" placeholder="+234 800 000 0000" id="phone" name="phone" autocomplete="tel" />
             </div>
             <div class="form-group">
-              <label>What do you want to achieve?</label>
-              <select id="goal">
+              <label for="goal">What do you want to achieve?</label>
+              <select id="goal" name="goal" required>
                 <option value="" disabled selected>Select your goal</option>
                 <option>Reading &amp; Writing programme</option>
                 <option>Business French programme</option>
@@ -1161,12 +1171,18 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Anything else you'd like Dr. Taju to know?</label>
-              <textarea placeholder="Your current level, schedule preferences, specific challenges..." id="message"></textarea>
+              <label for="message">Anything else you'd like Dr. Taju to know?</label>
+              <textarea placeholder="Your current level, schedule preferences, specific challenges..." id="message" name="message"></textarea>
             </div>
-            <button class="submit-btn" onclick="submitForm()">Send Enquiry →</button>
+            <!-- Honeypot: off-screen rather than hidden, so bots still fill it. -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+            </div>
+            <button type="submit" class="submit-btn" id="submit-btn">Send Enquiry →</button>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
             <p class="form-note">Dr. Taju will respond within 24 hours to arrange your free intro call.</p>
-          </div>
+          </form>
           <div class="form-success" id="form-success">
             <div class="checkmark">✓</div>
             <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--white); margin-bottom:0.5rem;">Message received!</h3>
@@ -1204,42 +1220,50 @@
       el.classList.toggle('open');
     }
 
-    // Form submit (hooks into Formspree — replace action URL before going live)
-    function submitForm() {
-      const fname = document.getElementById('fname').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const goal = document.getElementById('goal').value;
+    // Form submit — posts to our own Netlify function, which emails Dr. Taju.
+    const bookingForm = document.getElementById('booking-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formError = document.getElementById('form-error');
 
-      if (!fname || !email || !goal) {
-        alert('Please fill in your name, email, and goal before sending.');
+    function showFormError(text) {
+      formError.textContent = text;
+      formError.hidden = false;
+    }
+
+    bookingForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      formError.hidden = true;
+
+      const data = Object.fromEntries(new FormData(bookingForm));
+      if (!data.fname.trim() || !data.email.trim() || !data.goal) {
+        showFormError('Please fill in your name, email, and goal before sending.');
         return;
       }
 
-      const formData = new FormData();
-      formData.append('name', fname + ' ' + document.getElementById('lname').value);
-      formData.append('email', email);
-      formData.append('phone', document.getElementById('phone').value);
-      formData.append('goal', goal);
-      formData.append('message', document.getElementById('message').value);
+      const label = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
 
-      fetch('https://formspree.io/f/mwvzpaok', {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(res => {
-        if (res.ok) {
-          document.getElementById('booking-form').style.display = 'none';
-          document.getElementById('form-success').style.display = 'block';
-        } else {
-          alert('Something went wrong. Please try WhatsApp instead.');
-        }
-      });
-      return;
+      try {
+        const res = await fetch('/.netlify/functions/send-enquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.error || 'Something went wrong. Please try WhatsApp instead.');
 
-      document.getElementById('booking-form').style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    }
+        bookingForm.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } catch (err) {
+        // A thrown TypeError here means the request never left the browser.
+        showFormError(err instanceof TypeError
+          ? 'Could not reach the server. Please check your connection, or message on WhatsApp.'
+          : err.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = label;
+      }
+    });
   </script>
 </body>
 </html>
