@@ -283,12 +283,13 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(15,35,64,0.2); }
 .about-photo {
   display: block;
   width: 100%;
-  /* Square frame: the source is 685x431, so a square crop uses its full
-     height and needs no upscaling. A taller frame would soften it. */
-  aspect-ratio: 1/1;
+  /* Portrait frame. The source is 1586x992, so a 4:5 crop gives 794px of
+     width where a 382px column needs 765px at 2x — sharp without upscaling. */
+  aspect-ratio: 4/5;
   object-fit: cover;
   object-position: center;
-  background: #E2EAF4;
+  /* Shown only before the image decodes; dark so it does not flash pale. */
+  background: var(--navy);
 }
 .about-accent-box {
   position: absolute;
@@ -297,6 +298,7 @@ nav.scrolled { box-shadow: 0 2px 20px rgba(15,35,64,0.2); }
   background: var(--navy);
   padding: 1.25rem 1.5rem;
   color: #ffffff;
+  border: 1px solid rgba(168, 196, 224, 0.35);
 }
 .about-accent-box .num {
   font-family: 'Cormorant Garamond', serif;
@@ -709,10 +711,11 @@ footer p { font-size: 12px; color: rgba(255,255,255,0.25); }
 .page-top { padding-top: calc(68px + 4rem); }
 .page-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
 /* The bio runs much longer than the photo, so let the photo follow the reader.
-   Harmless on the home prelude, where there is nothing to scroll past. */
-.page-top .about-image-block { position: sticky; top: calc(68px + 2rem); }
-@media (max-width: 900px) {
-  .page-top .about-image-block { position: static; }
+   Scoped above the breakpoint rather than overridden below it: the block is
+   position:relative by default, and a leftover `top` would displace it out of
+   its own grid row, dropping the photo onto the text beneath. */
+@media (min-width: 901px) {
+  .page-top .about-image-block { position: sticky; top: calc(68px + 2rem); }
 }
 @media (max-width: 600px) {
   .page-actions a { width: 100%; text-align: center; }
